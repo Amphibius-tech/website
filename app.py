@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, redirect, url_for, flash
 from src.db_provider.db_service import db, EnquiryForm
 
 app = Flask(__name__)
@@ -10,29 +10,37 @@ db.init_app(app)
 with app.app_context():
     db.create_all()
 
-@app.route('/', methods=['POST', 'GET'])
+@app.route('/', methods=['GET'])
 def index():
-    if request.method == "POST":
-        name = request.form['name']
-        email = request.form['email']
-        service = request.form['service']
-        message = request.form['message']
-        
-        form = EnquiryForm(
+    return render_template('main.html')
+
+@app.route('/form', methods=['POST'])
+def form():
+    name = request.form.get('name')
+    email = request.form.get('email')
+    service = request.form.get('service')
+    message = request.form.get('message')
+
+    if not all([name, email, service, message]):
+        flash("Please fill in all required fields.", "warning")
+        return redirect(url_for('index'))
+
+    try:
+        new_form = EnquiryForm(
             name=name,
             email=email,
             service=service,
             message=message
         )
-        
-        db.session.add(form)
+        db.session.add(new_form)
         db.session.commit()
-        print('enquiry form updated')
-        
-        render_template('main.html', message="Thanks for the enquiry, we will get back to you soon!")
-        
-    return render_template('main.html')
-
+        flash("✅ Your enquiry has been submitted successfully!", "success")
+    except Exception as e:
+        db.session.rollback()
+        flash("❌ Something went wrong. Please try again later.", "danger")
+        print("Error:", e)
+    
+    return redirect(url_for('index'))
 
 
 if __name__ == "__main__":
