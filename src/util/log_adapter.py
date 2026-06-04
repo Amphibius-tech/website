@@ -1,17 +1,18 @@
+import os
 import logging
 
 logger = logging.getLogger(__name__)
-logger.setLevel(logging.ERROR)
+logger.setLevel(logging.INFO)
 
-# Create file handler
-file_handler = logging.FileHandler("logs/linkedin.log")
+if os.getenv("VERCEL"):
+    handler = logging.StreamHandler()
+else:
+    os.makedirs("logs", exist_ok=True)
+    handler = logging.FileHandler("logs/linkedin.log")
 
-# Optional formatting
 formatter = logging.Formatter(
     "%(asctime)s - %(levelname)s - %(message)s"
 )
 
-file_handler.setFormatter(formatter)
-
-# Attach handler to logger
-logger.addHandler(file_handler)
+handler.setFormatter(formatter)
+logger.addHandler(handler)
