@@ -14,3 +14,4 @@ pymongo
 linkedin-api
 pygithub
 flask[async]
+tiktoken
