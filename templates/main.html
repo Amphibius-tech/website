@@ -438,6 +438,20 @@
     .footer-links a { font-size: 13px; color: var(--text-muted); text-decoration: none; transition: color .15s; }
     .footer-links a:hover { color: var(--gold); }
 
+    .nav-signin {
+  padding: 10px 18px;
+  border-radius: 8px;
+  text-decoration: none;
+  color: var(--text);
+  font-weight: 600;
+  transition: all 0.3s ease;
+}
+
+.nav-signin:hover {
+  background: #f3f4f6;
+  color: #000;
+}
+
     /* ─────────────────────────────────
        ANIMATIONS
     ───────────────────────────────── */
@@ -501,17 +515,23 @@
 <!-- ── NAV ── -->
 <nav>
   <a href="#" class="nav-logo">Shubham K</a>
+
   <div class="nav-links">
     <a href="#services">Services</a>
     <a href="#process">Process</a>
     <a href="#testimonials">Testimonials</a>
     <a href="#contact">Contact</a>
   </div>
-  <a href="#contact" class="nav-cta">Let's Talk</a>
+
+  <div class="nav-actions">
+    <a href="{{ url_for('landing_bp.signin')}}" class="nav-signin">Sign In</a>
+    <a href="#contact" class="nav-cta">Let's Talk</a>
+  </div>
+
   <button class="hamburger" onclick="toggleMenu()" aria-label="Menu">
     <svg width="22" height="16" viewBox="0 0 22 16" fill="none">
-      <rect y="0"  width="22" height="2" rx="1" fill="currentColor"/>
-      <rect y="7"  width="22" height="2" rx="1" fill="currentColor"/>
+      <rect y="0" width="22" height="2" rx="1" fill="currentColor"/>
+      <rect y="7" width="22" height="2" rx="1" fill="currentColor"/>
       <rect y="14" width="22" height="2" rx="1" fill="currentColor"/>
     </svg>
   </button>

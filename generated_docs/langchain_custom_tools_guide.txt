@@ -1,0 +1,85 @@
+LangChain Custom Tool Building Guide
+
+1. Basic Tool Structure
+@tool
+def my_custom_tool(param1: str, param2: int) -> str:
+    """Tool description"""
+    return f"Result: {param1} + {param2}"
+
+2. Tool Registration
+tools = [search_tool]
+
+3. Async Tool Support
+@tool
+async def async_tool(param: str) -> str:
+    await some_async_operation()
+    return result
+
+4. Error Handling
+@tool
+def robust_tool(param: str) -> str:
+    try:
+        return result
+    except Exception as e:
+        return f"Error: {str(e)}"
+
+5. Tool with Metadata
+@tool
+def documented_tool(param: str) -> str:
+    """
+    Detailed description
+    Args:
+        param: Description of parameter
+    Returns:
+        Description of return value
+    """
+    return result
+
+6. External API Integration
+@tool
+def api_tool(endpoint: str) -> dict:
+    response = requests.get(endpoint)
+    return response.json()
+
+7. File Operations
+@tool
+def file_tool(filename: str) -> str:
+    with open(filename, 'r') as f:
+        return f.read()
+
+8. Database Queries
+@tool
+def db_tool(query: str) -> list:
+    conn = sqlite3.connect('database.db')
+    cursor = conn.execute(query)
+    return cursor.fetchall()
+
+9. LLM Integration
+@tool
+def llm_tool(prompt: str) -> str:
+    llm = ChatOpenAI()
+    return llm.invoke(prompt)
+
+10. Caching
+@tool
+@lru_cache(maxsize=100)
+def cached_tool(param: str) -> str:
+    return result
+
+Best Practices:
+- Use clear, descriptive tool names
+- Add comprehensive docstrings
+- Handle errors gracefully
+- Validate inputs
+- Document return types
+- Use async for I/O operations
+- Implement rate limiting for APIs
+- Add logging for debugging
+
+Common Use Cases:
+- Web scraping tools
+- Database queries
+- File system operations
+- API integrations
+- Custom calculations
+- External service calls

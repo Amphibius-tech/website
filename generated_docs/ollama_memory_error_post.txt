@@ -1,0 +1,54 @@
+🚨 Ollama Memory Error: qwen3.5 on 6GB RAM? Here's How to Fix It!
+
+I recently hit a frustrating wall while running qwen3.5 on Ollama with a 6GB RAM setup. The error message was clear:
+
+"Error getting agent response: model requires more system memory (6.1 GiB) than is available (5.8 GiB)"
+
+Status code 500. Classic.
+
+🔍 ROOT CAUSES:
+
+1️⃣ Model Size vs. RAM: qwen3.5 needs ~6.1 GiB, but your system only has 5.8 GiB available after OS overhead.
+
+2️⃣ Memory Overhead: Ollama reserves memory for the OS, background processes, and the model itself. You can't use 100% of your RAM.
+
+3️⃣ Swap Space: Without adequate swap, Ollama crashes when memory is tight.
+
+4️⃣ Model Quantization: Higher quantization (e.g., Q4_K_M) uses more memory than lower ones (Q2_K, Q3_K).
+
+✅ SOLUTIONS:
+
+1. Use a Smaller Quantization:
+   - Switch to Q2_K or Q3_K variants
+   - Command: ollama pull qwen3.5:7b-q2_K
+
+2. Reduce Context Window:
+   - Limit context size to save memory
+   - Set OLLAMA_NUM_PARALLEL=1 in .env
+
+3. Add Swap Space:
+   - Create a 4-8GB swap file
+   - Helps prevent OOM crashes
+
+4. Use a Smaller Model:
+   - Try qwen3.5:3b or qwen3.5:1.5b for 6GB RAM
+   - Trade some capability for stability
+
+5. Close Background Apps:
+   - Free up RAM before running inference
+   - Use Task Manager/Monitor to check usage
+
+6. Upgrade Hardware:
+   - 8GB+ RAM is the sweet spot for 7B models
+   - Consider 16GB for comfortable headroom
+
+💡 PRO TIP:
+Always check model memory requirements before pulling. Use:
+ollama show qwen3.5
+
+📌 Takeaway:
+Don't fight the hardware. Optimize your setup or choose models that fit your constraints.
+
+👇 What's your RAM setup? What models do you run? Share your tips below!
+
+#Ollama #LLM #AI #MachineLearning #GenAI #Qwen #OpenSource #TechTips #AIEngineering #DataScience

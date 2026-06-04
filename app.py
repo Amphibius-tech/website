@@ -1,24 +1,29 @@
-from flask import Flask, render_template, request, jsonify
+from flask import Flask
+import warnings
 
-from src.database.provider.leads_info import LeadsInfoProvider
+from src.routes.conversation_route import conversation_bp
+from src.routes.leads_routes import leads_management_bp
+from src.routes.interview_prep_route import interview_bp
+from src.routes.landing import landing_bp
+
+warnings.filterwarnings("ignore")
 
 app = Flask(__name__)
 
+app.register_blueprint(landing_bp)
 
-@app.route('/', methods=['GET'])
-def index():
-    return render_template('main.html')
+app.register_blueprint(conversation_bp)
 
-@app.route("/submit-enquiry", methods=["POST"])
-def submit_enquiry():
+app.register_blueprint(leads_management_bp)
 
-    LeadsInfoProvider().add_leads_entry(request)
-
-    return jsonify({
-        "status": "success",
-        "message": "Enquiry submitted successfully"
-    }), 200
-
+app.register_blueprint(interview_bp)
 
 if __name__ == "__main__":
-    app.run()
+    app.run(
+    debug=True,
+    use_reloader=True,
+    port=5874,
+    host="0.0.0.0"
+)
+
+    

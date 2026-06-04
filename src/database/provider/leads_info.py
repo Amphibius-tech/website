@@ -12,7 +12,9 @@ class LeadsInfoProvider:
     def __init__(self):
         self.mongo_client = MongoDBClient()
         self.database_name = str(os.getenv("LEADS_DB_NAME"))
-        self.collection_name = str(os.getenv("LEADES_COLLECTION_NAME"))
+        self.collection_name = str(os.getenv("LEADS_COLLECTION_NAME"))
+        self.web_database_name = str(os.getenv("WEBSITE_DB_NAME"))
+        self.web_collection_name = str(os.getenv("WEBSITE_COLLECTION_NAME"))
         
     def get_all_leads(self):
         try:
@@ -36,7 +38,7 @@ class LeadsInfoProvider:
                 createdAt = get_current_dt_in_milliseconds_precision(),
                 )
                 
-                self.mongo_client.insert_one_item_in_collection(self.database_name, self.collection_name, update_entry.model_dump())
+                self.mongo_client.insert_one_item_in_collection(self.web_database_name, self.web_collection_name, update_entry.model_dump())
         except Exception as e:
             raise Exception("An error occured in 'add_leads_entry' call", str(e))
         
