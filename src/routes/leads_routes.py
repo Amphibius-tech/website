@@ -27,7 +27,7 @@ def add_lead():
                 "message": f"Unable to save the data"
             }), 400
         
-        leads_info_provider.add_leads_entry(data)
+        leads_info_provider.add_leads_entry(request=request)
         
         return jsonify({
             "status": "success",

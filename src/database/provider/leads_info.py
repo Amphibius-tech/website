@@ -3,7 +3,7 @@ from dotenv import load_dotenv
 import uuid
 
 from src.database.service.mongo_client import MongoDBClient
-from src.modals.leads_entry import LeadsEntry
+from src.modals.leads_entry import LeadsEntry, WebLeadsEntry
 from src.util.datetime_helper import get_current_dt_in_milliseconds_precision
 
 load_dotenv()
@@ -25,9 +25,27 @@ class LeadsInfoProvider:
         
     def add_leads_entry(self, request):
         try:
-            data = request.json
+            data = request.get_json()
             if data:
                 update_entry = LeadsEntry(
+                id = str(uuid.uuid4()),
+                client_name = data.get('client_name', 'dummy'),
+                request_type = data.get('request_type', 'dummy'),
+                linkedin_url = data.get('linkedin_url', 'dummy'),
+                proposal_status = data.get('proposal_status', 'dummy'),
+                createdAt = get_current_dt_in_milliseconds_precision(),
+                )
+                
+                self.mongo_client.insert_one_item_in_collection(self.database_name, self.collection_name, update_entry.model_dump())
+        except Exception as e:
+            raise Exception("An error occured in 'add_leads_entry' call", str(e))
+        
+        
+    def add_web_leads_entry(self, request):
+        try:
+            data = request.json
+            if data:
+                update_entry = WebLeadsEntry(
                 id = str(uuid.uuid4()),
                 full_name = data.get('full_name', "dummy"),
                 email = data.get('email', "dummy"),

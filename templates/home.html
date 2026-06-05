@@ -417,7 +417,7 @@
         <label class="form-label">LinkedIn URL</label>
         <input id="linkedin_url" type="url" placeholder="https://linkedin.com/in/..." required class="form-input" />
       </div>
-
+<!-- 
       <div>
         <label class="form-label">Proposal Status</label>
         <select id="proposal_status" class="form-input">
@@ -432,7 +432,7 @@
           <option value="No Response">No Response</option>
           <option value="Rejected">Rejected</option>
         </select>
-      </div>
+      </div> -->
 
       <button type="submit" class="btn-primary mt-2">Save Lead</button>
     </form>
@@ -693,7 +693,7 @@ document.getElementById("entryForm").addEventListener("submit", async function(e
     client_name:     document.getElementById("client_name").value,
     request_type:    document.getElementById("request_type").value,
     linkedin_url:    document.getElementById("linkedin_url").value,
-    proposal_status: document.getElementById("proposal_status").value,
+    proposal_status: "Send", //default for new leads
   };
   try {
     const res = await fetch("/add_lead", {

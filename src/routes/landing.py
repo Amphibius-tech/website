@@ -16,7 +16,7 @@ def index():
 @landing_bp.route("/submit-enquiry", methods=["POST"])
 def submit_enquiry():
     try:
-        LeadsInfoProvider().add_leads_entry(request)
+        LeadsInfoProvider().add_web_leads_entry(request)
 
         return jsonify({
             "status": "success",
